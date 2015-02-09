@@ -1,0 +1,220 @@
+#!/bin/bash
+# runPM
+# Automated bash script for running entire the phenotype microarray analysis
+#
+# Author: Daniel A Cuevas
+# Created on 22 Nov. 2013
+# Updated on 10 Apr. 2014
+
+usage() {
+    echo "
+usage: $scriptname -c config_filename [Options]
+OR
+usage: $scriptname -i PM_data_directory -n output_directory -o output_name [Options]
+
+Required
+   -c [config_filename]    : Configuration file listing all parameters (this takes precedence)
+   OR
+   -i [PM_data_directory]  : PM data directory path to files
+   -n [output_directory]   : Output directory (will create if non-existent)
+   -o [output_name]        : Suffix appended to all output files
+
+Optional
+   --debug                 : Print out debug messages
+   -f                      : Flag if filter should be applied to growth curves during PManalysis
+   -h, -?, --help          : This help message
+   -m                      : Generate figures
+   -p [plate_filename]     : Plate filepath
+   -v                      : Verbose output
+
+NOTES
+    FILE NAME FORMATS:
+        <Sample Name>_<Replicate Letter>_<other text>.txt
+        Regex used:    <Sample Name> -- [A-Za-z0-9-.]+
+                       <Replicate Letter> -- [A-Za-z0-9]+
+
+" >&2
+}
+
+error() {
+    echo "*****FATAL ERROR OCCURRED*****" >&1
+    echo $1 >&2
+    exit 1
+}
+
+checkConfigFile() {
+    configfile_secured="/tmp/PMAnalyzer_secured.cfg"
+    if egrep -q -v '^#|^[^ ]*=[^;]*' "$1"; then
+        getTime && echo "${currtime}    Config file is improper. Attempting to clean..." >&2
+        # filter the original to a new file
+        egrep '^#|^[^ ]*=[^;&]*'  "$configfile" > "$configfile_secured"
+        getTime && echo "${currtime}    Cleaned config file @ ${configfile_secured}" >&2
+        configfile="$configfile_secured"
+    fi
+    source "$configfile"
+}
+
+checkInputDirectory() {
+    if [[ ! -d $1 ]]; then
+        getTime && error "${currtime}    Directory '$1' does not exist."
+    fi
+    # Store directory in new variable and remove trailing slash
+    inputfiledir=$(echo $inputfiledir | perl -ne 'chomp; s/\/$//; print;')
+    inputfile=$(ls $1)
+}
+
+checkOutputDir() {
+    # Remove trailing slash
+    outputdir=$(echo $1 | perl -ne 'chomp; s/\/$//; print;')
+    # Check to see if directory needs to be created
+    [[ ! -d $1 ]] && getTime && echo "${currtime}    Output directory '$1' does not exist. Creating now." >&1 && mkdir $1
+}
+
+
+checkScriptDir() {
+    if [[ -z $1 ]]; then
+        pyscriptdir="./" # Script directory is current directory
+    else
+        [[ ! -d $1 ]] && getTime && error "${currtime}    Script directory '$1' does not exist."
+        pyscriptdir=$1
+    fi
+    # Remove trailing slash
+    pyscriptdir=$(echo $pyscriptdir | perl -ne 'chomp; s/\/$//; print;')
+}
+
+
+getTime() {
+    currtime=$(date "+[%F %H:%M:%S]")
+}
+
+####################################################
+#ARGUMENT PARSING
+####################################################
+
+scriptdir=$(cd $(dirname $0); pwd -P)
+pyscriptdir=$(cd $(dirname $0); pwd -P)/py
+plscriptdir=$(cd $(dirname $0); pwd -P)/pl
+scriptname=$(echo $0 | perl -ne '/\/?.*\/(.+)/; print $1;')
+filterflag=""
+verboseFlag=""
+debugFlag=""
+imageFlag=""
+num_replicates=1
+pythonexec="/usr/local/bin/python3.4"
+
+while [[ $# != 0 ]]; do
+    case $1 in
+    -h|-\?|--help)
+        usage
+        exit 2
+        ;;
+    -c)
+        shift
+        [[ ! $1 || $(printf "%s" "$1" | perl -ne 'm/(^-.$)/; print $1;') ]] && echo "Missing config filename" >&2 && usage && exit 2
+        configfile=$1
+        ;;
+    --debug)
+        debugFlag="--debug"
+        ;;
+    -f)
+        filterflag="-f"
+        ;;
+    -i)
+        shift
+        [[ ! $1 || $(printf "%s" "$1" | perl -ne 'm/(^-.$)/; print $1;') ]] && echo "Missing -i value" >&2 && usage && exit 2
+        inputfiledir=$1
+        ;;
+    -m)
+        imageFlag="-i"
+        ;;
+    -n)
+        shift
+        [[ ! $1 || $(printf "%s" "$1" | perl -ne 'm/(^-.$)/; print $1;') ]] && echo "Missing -n value" >&2 && usage && exit 2
+        outputdir=$1
+        ;;
+    -o)
+        shift
+        [[ ! $1 || $(printf "%s" "$1" | perl -ne 'm/(^-.$)/; print $1;') ]] && echo "Missing -o value" >&2 && usage && exit 2
+        outputname=$1
+        ;;
+    -p)
+        shift
+        [[ ! $1 || $(printf "%s" "$1" | perl -ne 'm/(^-.$)/; print $1;') ]] && echo "Missing -p value" >&2 && usage && exit 2
+        plate=$1
+        ;;
+    -v)
+        verbose=0;
+        verboseFlag="-v"
+        ;;
+    *)
+        echo "Unknown option $1" >&2
+        usage
+        exit 2
+    esac
+    shift
+done
+
+# Check if config file was supplied
+if [[ $configfile ]]; then
+    checkConfigFile $configfile
+fi
+
+# Check if required variables are set
+if [[ ! $inputfiledir ||
+    ! $outputname ||
+    ! $outputdir ]]; then
+    usage
+    exit 2
+fi
+
+# Check if input file or directory exists
+checkInputDirectory $inputfiledir
+
+# Remove leading slashes from output directory
+checkOutputDir $outputdir
+
+# Check if script direectory exists
+checkScriptDir $pyscriptdir
+
+# Convert input files line endings from DOS to UNIX
+getTime && echo "${currtime}    *****Checking line endings*****" >&1
+for f in ${inputfile[@]}; do
+    f=$(echo $f | perl -ne 's/([\(\)])/\\$1/g; print;') # Escape any parentheses in input file name
+    cmd="perl -i -npe 's/\r\n?/\n/g' $inputfiledir/$f"
+    [[ $verbose ]] && getTime && echo "${currtime}    Executing $cmd" >&1
+    eval $cmd
+    [[ $? -ne 0 ]] && getTime && error "${currtime}    Fail on command: $cmd"
+done
+
+################################################
+#ANALYST PARSING
+################################################
+
+getTime && echo "${currtime}    *****Parsing analyst files*****" >&1
+out="raw_curves_${outputname}.txt"
+# Check if plate was supplied
+if [[ $plate ]]; then
+    cmd="${plscriptdir}/pmParser.pl -d $inputfiledir -p $plate > $outputdir/${out}"
+else
+    cmd="${plscriptdir}/pmParser.pl -d $inputfiledir > $outputdir/${out}"
+fi
+[[ $verbose ]] && getTime && echo "${currtime}    Executing $cmd" >&1
+eval $cmd
+[[ $? -ne 0 ]] && getTime && error "${currtime}    Fail on command: $cmd"
+
+################################################
+#ANALYSIS
+################################################
+
+in="$outputdir/${out}"
+if [[ $plate ]]; then
+    cmd="$pythonexec ${pyscriptdir}/pmanalysis.py $in $outputdir -o $outputname -p $filterflag $verboseFlag $debugFlag $imageFlag"
+else
+    cmd="$pythonexec ${pyscriptdir}/pmanalysis.py $in $outputdir -o $outputname $filterflag $verboseFlag $debugFlag $imageFlag"
+fi
+getTime && echo "${currtime}    *****Starting modeling script*****" >&1
+[[ $verbose ]] && getTime && echo "${currtime}    Executing $cmd" >&1
+eval $cmd
+[[ $? -ne 0 ]] && getTime && error "${currtime}    Fail on command: $cmd"
+
+getTime && echo "${currtime}    *****Completed!*****" >&1
