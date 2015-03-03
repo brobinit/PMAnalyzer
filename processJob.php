@@ -41,7 +41,7 @@ function getFileLinks(&$retHash, $jid) {
         2 => array("Logistic Curves (per sample)"     => "logistic_curves_sample_".$jid.".txt"),
         3 => array("Logistic Parameters (averaged)"   => "logistic_params_mean_".$jid.".txt"),
         4 => array("Logistic Curves (averaged)"       => "logistic_curves_mean_".$jid.".txt"),
-        5 => array("All files text (tar.gz)"          => "myfiles.tar.gz"));
+        5 => array("All text files (tar.gz)"          => "myfiles.tar.gz"));
 }
 
 #################################################
