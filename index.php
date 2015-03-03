@@ -6,7 +6,7 @@
     <title>PMAnalyzer</title>
 
     <!-- Google web fonts -->
-    <link href="http://fonts.googleapis.com/css?family=PT+Sans+Narrow:400,700" rel='stylesheet' />
+    <link href="https://fonts.googleapis.com/css?family=PT+Sans+Narrow:400,700" rel='stylesheet' />
     <link href='https://fonts.googleapis.com/css?family=Special+Elite' rel='stylesheet' type='text/css'>
 
     <!-- The main CSS file -->
