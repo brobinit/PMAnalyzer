@@ -183,30 +183,31 @@ function showResults(data) {
     html += '</table><br/>';
     $("#results").html(html);
 
-
     //****** Display result images ******//
-    html += '<div id="imgs">';
-    // Raw growth curves
-    for (var fn in data["imgs"]["rawgrowthcurves"]) {
-        var src = resdir+data["imgs"]["rawgrowthcurves"][fn];
+    if ($("#figs").prop("checked") == true) {
+        html += '<div id="imgs">';
+        // Raw growth curves
+        for (var fn in data["imgs"]["rawgrowthcurves"]) {
+            var src = resdir+data["imgs"]["rawgrowthcurves"][fn];
+            html += '<div class="img">';
+            html += '<h2 style="text-align:center;">'+fn+'</h2>';
+            html += '<a class="imga" target="_blank" href="'+src+'"><img src="'+src+'" alt="Raw Growth Curves"></a>';
+            html += '</div><br/>';
+        }
+        // Mean growth curves
+        var src = resdir+data["imgs"]["meangrowthcurves"];
         html += '<div class="img">';
-        html += '<h2 style="text-align:center;">'+fn+'</h2>';
-        html += '<a class="imga" target="_blank" href="'+src+'"><img src="'+src+'" alt="Raw Growth Curves"></a>';
+        html += '<h2 style="text-align:center;">Mean Growth Curves</h2>';
+        html += '<a class="imga" target="_blank" href="'+src+'"><img src="'+src+'" alt="Mean Growth Curves"></a> ';
         html += '</div><br/>';
+        //
+        // Growth levels
+        src = resdir+data["imgs"]["growthlevels"];
+        html += '<div class="img">';
+        html += '<h2 style="text-align:center;">Growth Levels</h2>';
+        html += '<a class="imga" target="_blank" href="'+src+'"><img src="'+src+'" alt="Growth Levels">';
+        html += '</div>';
+        $("#results").html(html);
     }
-    // Mean growth curves
-    var src = resdir+data["imgs"]["meangrowthcurves"];
-    html += '<div class="img">';
-    html += '<h2 style="text-align:center;">Mean Growth Curves</h2>';
-    html += '<a class="imga" target="_blank" href="'+src+'"><img src="'+src+'" alt="Mean Growth Curves"></a> ';
-    html += '</div><br/>';
-    //
-    // Growth levels
-    src = resdir+data["imgs"]["growthlevels"];
-    html += '<div class="img">';
-    html += '<h2 style="text-align:center;">Growth Levels</h2>';
-    html += '<a class="imga" target="_blank" href="'+src+'"><img src="'+src+'" alt="Growth Levels">';
-    html += '</div>';
-    $("#results").html(html);
 }
 
