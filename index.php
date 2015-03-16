@@ -67,6 +67,22 @@
                     <br/> <br/>
                 <a id="uplink">Click to upload files</a> <span id="uploadstatus"></span>
                     <br/> <br/>
+                <a id="moreopts">Click here for more options</a>
+                <div id="optsection">
+                    <br/>
+                    <span class="optitem">Parser type
+                        <select name="parser">
+                            <option value="1">Multi-plate Reader (v1)</option>
+                            <option value="2">Well vs. Time</option>
+                        </select>
+                    </span>
+                    <br/>
+                    <span class="optitem">Generate figures
+                        <span style="margin-left:20px"></span>
+                        <input type="checkbox" name="figs" value="1" checked>
+                    </span>
+                </div>
+                    <br/> <br/>
                 <!-- <div id="submitdiv"> <input class="button" id="submit" type="submit" value="Submit job"> </div>  -->
                 <a id="submit" class="not-active">Click to submit job</a> <span id="status"></span>
             </div>

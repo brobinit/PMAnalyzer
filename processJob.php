@@ -50,6 +50,15 @@ function getFileLinks(&$retHash, $jid) {
 # retHash holds information sent back to primary webpage
 $retHash = array("status" => 0, "status_msg" => "ok");
 
+# Get parser type
+$parser = $_POST["parser"];
+
+# Check if figures is set
+$figs = "";
+if (isset($_POST["figs"])) {
+    $figs = "-m";
+}
+
 # Set up directory paths
 $jid = $_POST["jid"];  # Job ID
 $jdir = "uploads/".$jid."/";
@@ -63,7 +72,7 @@ if (!mkdir($results, 0776, true)) {
 }
 
 # Run analysis
-exec($script." -i ".$data." -o ".$jid." -n ".$results." -m -v > ".$errLog." 2>&1");
+exec($script." -i ".$data." -o ".$jid." -n ".$results." -t ".$parser." ".$figs." -v > ".$errLog." 2>&1");
 
 # Tarball text files
 $wd = getcwd()."/";

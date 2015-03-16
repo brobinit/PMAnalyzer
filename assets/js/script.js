@@ -11,6 +11,9 @@ $("#uplink").click(function(e){ uploadFile(e); });
 // Submit form link
 $("#submit").click(function(e){ processJob(e); });
 
+// Options section
+$("#moreopts").click(function(e){ $("#optsection").slideToggle("slow"); });
+
 
 
 /*****************************************************************

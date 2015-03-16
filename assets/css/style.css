@@ -109,13 +109,13 @@ p{
     padding: 4px;
 }
 
-#uplink, #submit{
+#uplink, #moreopts, #submit{
     font-size: 18px;
     color: #257691;
     font-weight: bolder;
 }
 
-#uplink:hover, #submit:hover{
+#uplink:hover, #moreopts:hover, #submit:hover{
     text-decoration:underline;
     cursor: pointer;
 }
@@ -129,6 +129,15 @@ p{
     pointer-events: none;
     cursor: default;
     color: rgb(192,192,192) !important;
+}
+
+.optitem{
+    font-weight: bolder;
+}
+
+#optsection{
+    margin-left: 30px;
+    display: none;
 }
 
 #submitdiv{
