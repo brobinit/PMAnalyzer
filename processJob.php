@@ -72,7 +72,7 @@ if (!mkdir($results, 0776, true)) {
 }
 
 # Run analysis
-exec($script." -i ".$data." -o ".$jid." -n ".$results." -t ".$parser." ".$figs." -v > ".$errLog." 2>&1");
+exec($script." -i ".$data." -o ".$jid." -d ".$results." -t ".$parser." ".$figs." -v > ".$errLog." 2>&1");
 
 # Tarball text files
 $wd = getcwd()."/";
