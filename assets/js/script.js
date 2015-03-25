@@ -184,7 +184,7 @@ function showResults(data) {
     $("#results").html(html);
 
     //****** Display result images ******//
-    if ($("#figs").prop("checked") == true) {
+    if ($("input[name=figs]").prop("checked") == true) {
         html += '<div id="imgs">';
         // Raw growth curves
         for (var fn in data["imgs"]["rawgrowthcurves"]) {

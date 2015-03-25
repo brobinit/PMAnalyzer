@@ -81,6 +81,14 @@
                         <span style="margin-left:20px"></span>
                         <input type="checkbox" name="figs" value="1" checked>
                     </span>
+                    <br/><br/>
+                    <span class="optitem">Samples and replicates
+                    <div style>
+                        <br/>
+                        Sample: <input name="sample1" type="text" placeholder="e.g. ecoli"><br/>
+                        Replicate: <input name="replicate1" type="text" placeholder="e.g. rep1">
+                    </div>
+                    </span>
                 </div>
                     <br/> <br/>
                 <!-- <div id="submitdiv"> <input class="button" id="submit" type="submit" value="Submit job"> </div>  -->
