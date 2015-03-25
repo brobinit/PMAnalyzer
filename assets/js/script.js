@@ -12,7 +12,17 @@ $("#uplink").click(function(e){ uploadFile(e); });
 $("#submit").click(function(e){ processJob(e); });
 
 // Options section
-$("#moreopts").click(function(e){ $("#optsection").slideToggle("slow"); });
+$("#moreopts").click(function(e){
+    $("#optsection").slideToggle("slow", function(){
+        var stat = $("#optstat");
+        if( $(this).is(":visible")) {
+            stat.text("click to hide");
+        }
+        else {
+            stat.text("click to show");
+        }
+    });
+});
 
 // Add more samples
 $("#addsr").click(function(e){
@@ -23,6 +33,7 @@ $("#addsr").click(function(e){
     $("#srtab tr:last").after('<tr><td>Replicate:</td><td><input ' +
                               'name="replicate'+snum+'" type="text" ' +
                               'placeholder="e.g. rep1"></td></tr>');
+    $("#numsamples").val(snum);
 });
 
 
@@ -116,6 +127,7 @@ function processJob(e) {
         if (data["status"] == 0) {
             var info = "Done";
             $("#status").html(info);
+            $("#uploadstatus").html("");
             showResults(data);
             $("#uplink").removeClass("not-active");
         }

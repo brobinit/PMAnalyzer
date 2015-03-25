@@ -61,29 +61,28 @@
     <div style="width:100%">
     <form id="upload" method="post" enctype="multipart/form-data">
             <input type="hidden" id="jid" name="jid">
+            <input type="hidden" id="numsamples" name="numsamples">
             <div id="uploadheader">Please select your data</div>
             <div id="uploadbody">
                 <input class="button" type="file" name="datafiles[]" multiple>
                     <br/> <br/>
                 <a id="uplink">Click to upload files</a> <span id="uploadstatus"></span>
                     <br/> <br/>
-                <a id="moreopts">Click here for more options</a>
+                <a id="moreopts">More options <span id="optstat">click to show</span></a>
                 <div id="optsection">
                     <br/>
-                    <span class="optitem">Parser type
+                    <div class="optitem">Parser type
                         <select name="parser">
                             <option value="1">Multi-plate Reader (v1)</option>
                             <option value="2">Well vs. Time</option>
                             <option value="3">Multi-plate Reader (v2)</option>
                         </select>
-                    </span>
-                    <br/>
-                    <span class="optitem">Generate figures
+                    </div>
+                    <div class="optitem">Generate figures
                         <span style="margin-left:20px"></span>
                         <input type="checkbox" name="figs" value="1" checked>
-                    </span>
-                    <br/>
-                    <span class="optitem">Number of plates
+                    </div>
+                    <div class="optitem">Number of plates
                         <select name="numplates">
                             <option value="1">1</option>
                             <option value="2">2</option>
@@ -96,9 +95,8 @@
                             <option value="9">9</option>
                             <option value="10">10</option>
                         </select>
-                    </span>
-                    <br/>
-                    <span class="optitem">Samples and replicates
+                    </div>
+                    <div class="optitem">Samples and replicates <i>(*currently under construction)</i>
                     <div style="margin-left:20px">
                         <table id="srtab">
                         <tr><td>Name:</td><td><input name="sample1" type="text" placeholder="e.g. ecoli"></td></tr>
@@ -106,7 +104,7 @@
                         </table>
                         <a id="addsr">+Add more samples+</a>
                     </div>
-                    </span>
+                    </div>
                 </div>
                     <br/> <br/>
                 <!-- <div id="submitdiv"> <input class="button" id="submit" type="submit" value="Submit job"> </div>  -->

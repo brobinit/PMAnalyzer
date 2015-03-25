@@ -59,6 +59,10 @@ if (isset($_POST["figs"])) {
     $figs = "-m";
 }
 
+# Get number of plates and samples
+$numPlates = $_POST["numplates"];
+$numSamples = $_POST["numsamples"];
+
 # Set up directory paths
 $jid = $_POST["jid"];  # Job ID
 $jdir = "uploads/".$jid."/";
@@ -72,7 +76,8 @@ if (!mkdir($results, 0776, true)) {
 }
 
 # Run analysis
-exec($script." -i ".$data." -o ".$jid." -d ".$results." -t ".$parser." ".$figs." -v > ".$errLog." 2>&1");
+exec($script." -i ".$data." -o ".$jid." -d ".$results." -n ".$numPlates.
+     " -t ".$parser." ".$figs." -v > ".$errLog." 2>&1");
 
 # Tarball text files
 $wd = getcwd()."/";
