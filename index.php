@@ -74,12 +74,28 @@
                         <select name="parser">
                             <option value="1">Multi-plate Reader (v1)</option>
                             <option value="2">Well vs. Time</option>
+                            <option value="3">Multi-plate Reader (v2)</option>
                         </select>
                     </span>
                     <br/>
                     <span class="optitem">Generate figures
                         <span style="margin-left:20px"></span>
                         <input type="checkbox" name="figs" value="1" checked>
+                    </span>
+                    <br/>
+                    <span class="optitem">Number of plates
+                        <select name="numplates">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3" selected>3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option value="10">10</option>
+                        </select>
                     </span>
                     <br/>
                     <span class="optitem">Samples and replicates
@@ -92,7 +108,7 @@
                     </div>
                     </span>
                 </div>
-                    <br/> <br/>
+                <br/>
                 <!-- <div id="submitdiv"> <input class="button" id="submit" type="submit" value="Submit job"> </div>  -->
                 <a id="submit" class="not-active">Click to submit job</a> <span id="status"></span>
             </div>
