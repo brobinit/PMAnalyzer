@@ -16,7 +16,7 @@ $("#moreopts").click(function(e){ $("#optsection").slideToggle("slow"); });
 
 // Add more samples
 $("#addsr").click(function(e){
-    var snum = $("#srtab").length + 1;
+    var snum = $("#srtab tr").length + 1;
     $("#srtab tr:last").after('<tr><td>Sample:</td><td><input name="sample' +
                                snum+'" type="text" placeholder="e.g. ecoli"' +
                                '></td></tr>');
