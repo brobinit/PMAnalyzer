@@ -81,12 +81,12 @@
                         <span style="margin-left:20px"></span>
                         <input type="checkbox" name="figs" value="1" checked>
                     </span>
-                    <br/><br/>
+                    <br/>
                     <span class="optitem">Samples and replicates
-                    <div style>
-                        <br/>
-                        Sample: <input name="sample1" type="text" placeholder="e.g. ecoli"><br/>
-                        Replicate: <input name="replicate1" type="text" placeholder="e.g. rep1">
+                    <div style="margin-left:20px">
+                        <table id="srtab">
+                        <tr><td>Sample:</td><td><input name="sample1" type="text" placeholder="e.g. ecoli"></td></tr>
+                        <tr><td>Replicate:</td><td><input name="replicate1" type="text" placeholder="e.g. rep1"></td></tr>
                     </div>
                     </span>
                 </div>
