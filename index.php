@@ -87,6 +87,7 @@
                         <table id="srtab">
                         <tr><td>Sample:</td><td><input name="sample1" type="text" placeholder="e.g. ecoli"></td></tr>
                         <tr><td>Replicate:</td><td><input name="replicate1" type="text" placeholder="e.g. rep1"></td></tr>
+                        </table>
                     </div>
                     </span>
                 </div>
