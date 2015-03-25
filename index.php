@@ -108,7 +108,7 @@
                     </div>
                     </span>
                 </div>
-                <br/>
+                    <br/> <br/>
                 <!-- <div id="submitdiv"> <input class="button" id="submit" type="submit" value="Submit job"> </div>  -->
                 <a id="submit" class="not-active">Click to submit job</a> <span id="status"></span>
             </div>
