@@ -101,7 +101,7 @@
                     <span class="optitem">Samples and replicates
                     <div style="margin-left:20px">
                         <table id="srtab">
-                        <tr><td>Sample:</td><td><input name="sample1" type="text" placeholder="e.g. ecoli"></td></tr>
+                        <tr><td>Name:</td><td><input name="sample1" type="text" placeholder="e.g. ecoli"></td></tr>
                         <tr><td>Replicate:</td><td><input name="replicate1" type="text" placeholder="e.g. rep1"></td></tr>
                         </table>
                         <a id="addsr">+Add more samples+</a>
